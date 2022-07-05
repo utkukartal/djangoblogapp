@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">  <!-- Bu grid ile login formunu ekrana ortaladık, ekran boyutundaki değişimlerden etkilenmiyor.-->
+            <h3>Kayıt Olun</h3>
+            <hr>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {{form|crispy}}
+                <br>
+                <button type="submit" class="btn btn-info">Kayıt Ol</button>
+            </form>
+        </div>
+    </div>
+{% endblock body %}
+
+<!-- Formu oluşturuken kullandığım eski yöntemler, crispy>>> bunlar
+{{form.as_p}}
+
+<div {% if form.non_field_errors %} class="alert alert-danger" {% endif %}>
+    <strong>{{form.non_field_errors}}</strong> Bu alert direk raise'lenene error için yaptığımı bir şeydi, fakat login ekranındaki alert için düz message kullandığımız için bunu da iptal ettim, benzerlik önemli diyerek.
+</div>
+        
+{% for field in form %}
+    <div class="form-group">
+        <label class="col-sm-4 control label" for="{{field.name}}"><strong>{{field.label}}</strong></label>
+        <div class="col-sm-8">{{field}}</div>
+    </div>
+{% endfor %}  Bunu kullanıca form biraz daha güzel oluyor fakat raise'lediğimiz error çıkmıyor. Bunun nedeni form.as_p'nin bir nevi her şeyi göstermesi, for loop'u error'u almıyor. Fakat biz form.non_field_errors ile eklemeyi başardık.-->

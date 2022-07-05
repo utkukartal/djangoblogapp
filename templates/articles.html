@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h3>Makaleler</h3>
+    
+    <form>  <!--burada flask'ta action ve method belirtilmişti, biz burada belirtmediğimiz için direkt method get olarak belirlenecek, action da olmadığı için yine aynı sayfaya gelecek-->
+        {% csrf_token %}
+        <input type="text" class="input-sm" name="keyword" maxlength="64" placeholder="Ara..."/>
+        <button type="submit" class="btn btn-info">Ara</button>
+    </form>
+
+    <hr>
+    {% if articles %}
+        {% for article in articles %}
+            <div class="row">
+                <div class="col-md-15 offset-md-1">
+                    <div>
+                        <!-- Post content-->
+                        <article>
+                            <!-- Post header-->
+                            <header class="mb-4">
+                                <!-- Post title-->
+                                <a href="{% url 'article:detail' article.id %}"><h3 class="fw-bolder mb-1">{{article.title}}</h3></a>  <!--Hazırdaki dinamik url'lerin dinamik url'ye çevrilmesi.-->
+                                <!-- Post meta content-->
+                                <div class="text-muted fst-italic mb-2">{{article.created_date}}, <strong>{{article.author.username}}</strong></div>
+                            </header>
+                            <!-- Preview image figure-->
+                            {% if article.article_image %}  <!-- Bu koşul önemli, image eklenmeyen article'ları göstermeye çalışırken aşağıdaki komut hataya neden olur.-->
+                                <a href="{% url 'article:detail' article.id %}"><figure class="col-lg-6 mb-4"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt="..." /></figure></a>
+                            {% endif %}
+                            <!-- Post content-->
+                            <section>
+                                {{article.content|safe|truncatewords:10}}  <!-- Buradaki safe, normal metnin html dosyası gibi gözükmemesi için. truncatewords ise gösterilecek kelime sayısını kısıtlıyor.-->
+                                <a href="{% url 'article:detail' article.id %}">Devamını Oku</a>
+                            </section>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <div class ="alert alert-danger">
+        <strong>Makale bulunamadı.</strong>
+        </div>
+    {% endif %}
+{% endblock body %}
