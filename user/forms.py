@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 
 class LoginForm(forms.Form):
     username = forms.CharField(label = "Kullanıcı Adı:", max_length=20, min_length=3)
@@ -17,6 +18,9 @@ class RegisterForm(forms.Form):
         if password != confirm:
             raise forms.ValidationError("Parolalar eşleşmiyor!")
         
+        if User.objects.filter(username = username).first():
+            raise forms.ValidationError("Kullanıcı adı kullanıyor!")
+            
         values = {
             "username": username,
             "password": password

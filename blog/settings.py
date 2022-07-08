@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-fa+2-q*pcbe@xg%ponhpralm(g+2@_e631pn+#)779x1^)ocnk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.your-domain.com']
 
 
 # Application definition
@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -122,7 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [  # Static dosyaların uygulamalar tarafından dışardan erişimi için, buradaki base_dir şu anda bulunduğumuz proje klasörü
     BASE_DIR / 'static',
 ]
